@@ -1,5 +1,7 @@
 :arrow_heading_up: Go back to the [Reference System Sotfware repository](https://github.com/COPRS/reference-system-software) :arrow_heading_up:  
-# How To
+# Installation manual
+
+<div align="right"><a href="https://github.com/moelauverjat/infrastructure/suites/6859455983/artifacts/265037376">Doc</a></div>
 
 ## Overview
 ![](./doc/img/deployment.png)
