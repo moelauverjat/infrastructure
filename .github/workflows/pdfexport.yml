@@ -21,7 +21,7 @@ jobs:
           echo "---" >> patch.md
           echo "title: \"Infrastructure Readme\"" >> patch.md
           echo "author: CS Group France" >> patch.md
-          cat patch.md README.md
+          cat patch.md README.md > Reame_2.md
 
       - name: Create PDF
         uses: docker://ghcr.io/coprs/reference-system-software:dependencies_pandoc_latex
