@@ -27,6 +27,8 @@ jobs:
           echo "title: Infrastructure Readme" >> patch_infra.md
           echo "author: CS Group France" >> patch_infra.md
           echo "---" >> patch_infra.md
+          echo "" >> patch_infra.md
+          echo "" >> patch_infra.md
 
           cat patch_infra.md README.md > README_patched.md
           
