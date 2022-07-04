@@ -20,7 +20,21 @@ jobs:
         uses: docker://ghcr.io/coprs/reference-system-software:dependencies_pandoc_latex
         with:
           args: -s --resource-path="/github/workspace/doc/img:/github/workspace/doc:." --listings -H /root/.pandoc/listings-setup.tex -H /root/.pandoc/deeplists.tex -V geometry:margin=1in --table-of-contents --pdf-engine=xelatex --output="output/infrastructure_readme.pdf" --from=markdown README.md
+          
+      - name: Add doc title
+        run: |
+          echo "---" >> patch_infra.md
+          echo "title: Infrastructure Readme" >> patch_infra.md
+          echo "author: CS Group France" >> patch_infra.md
+          echo "---" >> patch_infra.md
 
+          cat patch_infra.md README.md > README_patched.md
+          
+      - name: Create PDF
+        uses: docker://ghcr.io/coprs/reference-system-software:dependencies_pandoc_latex
+        with:
+          args: -s --resource-path="/github/workspace/doc/img:/github/workspace/doc:." --listings -H /root/.pandoc/listings-setup.tex -H /root/.pandoc/deeplists.tex -V geometry:margin=1in --table-of-contents --pdf-engine=xelatex --output="output/infrastructure_readme.pdf" --from=markdown README.md
+          
       - uses: actions/upload-artifact@master
         with:
           name: documentation
