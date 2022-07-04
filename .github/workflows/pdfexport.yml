@@ -24,8 +24,7 @@ jobs:
       - name: Add doc title
         run: |
           echo "---" >> patch_infra.md
-          echo "[//]: # (Title: Infrastructure Readme)" >> patch_infra.md
-          echo "[//]: # (Author: CS Group)" >> patch_infra.md
+          echo "title: Infrastructure Readme" >> patch_infra.md
           echo "---" >> patch_infra.md
           echo "" >> patch_infra.md
           echo "" >> patch_infra.md
