@@ -16,15 +16,10 @@ jobs:
         id: make_output_dir
         run: mkdir output # create output dir
 
-      - name: Create PDF
-        uses: docker://ghcr.io/coprs/reference-system-software:dependencies_pandoc_latex
-        with:
-          args: -s --resource-path="/github/workspace/doc/img:/github/workspace/doc:." --listings -H /root/.pandoc/listings-setup.tex -H /root/.pandoc/deeplists.tex -V geometry:margin=1in --table-of-contents --pdf-engine=xelatex --output="output/infrastructure_readme.pdf" --from=markdown README.md
-          
       - name: Add doc title
         run: |
           echo "---" >> patch_infra.md
-          echo "title: Infrastructure Readme" >> patch_infra.md
+          echo "title: Installation manual" >> patch_infra.md
           echo "---" >> patch_infra.md
           echo "" >> patch_infra.md
           echo "" >> patch_infra.md
@@ -48,6 +43,12 @@ jobs:
 
       - name: Add doc properties on top
         run: |
+          echo "---" >> patch_infra.md
+          echo "title: Software Installation manual" >> patch_infra.md
+          echo "---" >> patch_infra.md
+          echo "" >> patch_infra.md
+          echo "" >> patch_infra.md
+
           echo "# Software Installation Manual" >> patch.md
           echo "" >> patch.md
           echo "## Document properties" >> patch.md
@@ -114,7 +115,15 @@ jobs:
           find "doc/how-to" -type f -name "*.md" | sort -V | awk '{ print "\""$0"\""}' | tr -s '\n' ' ' > list.txt
           # this will also include README.md
           # echo "::set-output name=files::$(printf '"%s" ' *.md)"
+          echo "---" >> patch_infra.md
+          echo "title: How to" >> patch_infra.md
+          echo "---" >> patch_infra.md
+          echo "" >> patch_infra.md
+          echo "" >> patch_infra.md
+
+          cat patch_infra.md README.md > README_patched.md
           echo "::set-output name=files::$(cat list.txt)"
+          
           
       - name: make output dir
         id: make_output_dir
