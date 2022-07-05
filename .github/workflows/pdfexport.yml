@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "---" >> patch_infra.md
           echo "title: Installation manual" >> patch_infra.md
-          echo "titlepage: true" >> patch_infra.md
+          echo "titlepage: true," >> patch_infra.md
           echo "---" >> patch_infra.md
           echo "" >> patch_infra.md
           echo "" >> patch_infra.md
@@ -30,7 +30,7 @@ jobs:
       - name: Create PDF
         uses: docker://ghcr.io/coprs/reference-system-software:dependencies_pandoc_latex
         with:
-          args: -s --resource-path="/github/workspace/doc/img:/github/workspace/doc:." --listings -H /root/.pandoc/listings-setup.tex -H /root/.pandoc/deeplists.tex -V geometry:margin=1in --table-of-contents --pdf-engine=xelatex --output="output/infrastructure_readme.pdf" --from=markdown README_patched.md
+          args: -s --resource-path="/github/workspace/doc/img:/github/workspace/doc:." --from markdown --template eisvogel --listings -H /root/.pandoc/listings-setup.tex -H /root/.pandoc/deeplists.tex -V geometry:margin=1in --table-of-contents --pdf-engine=xelatex --output="output/infrastructure_readme.pdf" --from=markdown README_patched.md
           
       - uses: actions/upload-artifact@master
         with:
