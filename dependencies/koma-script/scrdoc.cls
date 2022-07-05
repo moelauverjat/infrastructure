@@ -1,6 +1,6 @@
 % ======================================================================
-% scrdoc.cls
-% Copyright (c) Markus Kohm, 2002-2022
+% scrdoc.dtx
+% Copyright (c) Markus Kohm, 2002-2016
 %
 % This file is part of the LaTeX2e KOMA-Script bundle.
 %
@@ -15,63 +15,82 @@
 %
 % The Current Maintainer and author of this work is Markus Kohm.
 %
-% This work consists of all files listed in MANIFEST.md.
+% This work consists of all files listed in manifest.txt.
+% ----------------------------------------------------------------------
+% scrdoc.dtx
+% Copyright (c) Markus Kohm, 2002-2016
+%
+% Dieses Werk darf nach den Bedingungen der LaTeX Project Public Lizenz,
+% Version 1.3c, verteilt und/oder veraendert werden.
+% Die neuste Version dieser Lizenz ist
+%   http://www.latex-project.org/lppl.txt
+% und Version 1.3c ist Teil aller Verteilungen von LaTeX
+% Version 2005/12/01 oder spaeter und dieses Werks.
+%
+% Dieses Werk hat den LPPL-Verwaltungs-Status "author-maintained"
+% (allein durch den Autor verwaltet).
+%
+% Der Aktuelle Verwalter und Autor dieses Werkes ist Markus Kohm.
+% 
+% Dieses Werk besteht aus den in manifest.txt aufgefuehrten Dateien.
 % ======================================================================
+%
 % Note: This class was made to shrink size of dtx files.
 %       Do not use this class for anything because it may change
 %       incompatible from distribution to distribution
-% ======================================================================
-% $Id: scrdoc.cls 3900 2022-06-24 08:00:42Z kohm $
+%
+
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{scrdoc}[%
-  2022/06/24 v0.1j KOMA-Script source documentation class (deprecated)]
+  2016/04/12 v0.1e KOMA-Script source documentation class]
 
-\ClassWarningNoLine{scrdoc}{%
-  This class is depreacted since KOMA-Script 3.36!\MessageBreak
-  The internal KOMA-Script source documentation class\MessageBreak
-  scrdoc is not used any longer for the implementation\MessageBreak
-  documentation of KOMA-Script.\MessageBreak
-  It is also not compatible with version 3 of the\MessageBreak
-  doc package and currently only a workaround is used to\MessageBreak
-  force using doc version 2 and to ignore ltxdoc.cfg.\MessageBreak
-  You should replace this class urgently, because it will\MessageBreak
-  be removed from KOMA-Script soon%
+% Load standard LaTeX documentation class, passing all options to it
+% but use scrartcl instead of article.
+\IfFileExists{scrartcl.cls}{%
+  \newcommand*{\sd@saved@LoadClass}{}
+  \let\sd@saved@LoadClass=\LoadClass
+  \renewcommand*{\LoadClass}[2][]{%
+    \begingroup
+      \edef\@tempc{##2}\def\@tempb{article}%
+      \ifx\@tempc\@tempb
+        \let\LoadClass\sd@saved@LoadClass
+        \def\@tempc{scrartcl}%
+      \fi
+      \edef\@tempc{%
+        \noexpand\endgroup\noexpand\sd@saved@LoadClass[{##1}]{\@tempc}}%
+    \@tempc
+  }
+  \newcommand*{\sd@saved@PassOptionsToClass}{}
+  \let\sd@saved@PassOptionsToClass=\PassOptionsToClass
+  \renewcommand*{\PassOptionsToClass}[2]{%
+    \begingroup
+      \edef\@tempc{##2}\def\@tempb{article}%
+      \ifx\@tempc\@tempb
+        \def\@tempc{scrartcl}%
+      \fi
+      \edef\@tempc{%
+        \noexpand\endgroup\noexpand\sd@saved@PassOptionsToClass{##1}{%
+          \@tempc}}%
+    \@tempc
+  }
+}{%
+  \typeout{^^J%
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!^^J%
+    !!! You should generate KOMA-Script classes first!^^J%
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!^^J%
+    ^^J%
+  }%
+  \DeclareRobustCommand{\KOMAScript}{\textsf{K\kern.05em O\kern.05em%
+      M\kern.05em A\kern.1em-\kern.1em Script}}%
+  \def\addsec{\section*}%
+  \newenvironment{labeling}[2][]{%
+    \description
+  }{%
+    \csname enddescription\endcsname
+  }%
+  \newcommand*{\marginline}{\marginpar}%
 }
-  
-% scrdoc is incompatible with doc v3. Several changes would be needed
-% to improve this. However, currently a kind of emergency workaround can be
-% used.
-\PassOptionsToClass{nocfg,doc2}{scrdoc}
-
-% Replace article class by scrartcl class.  
-\newcommand*{\sd@saved@LoadClass}{}
-\let\sd@saved@LoadClass=\LoadClass
-\renewcommand*{\LoadClass}[2][]{%
-  \begingroup
-    \edef\@tempc{#2}\def\@tempb{article}%
-    \ifx\@tempc\@tempb
-      \let\LoadClass\sd@saved@LoadClass
-      \def\@tempc{scrartcl}%
-    \fi
-    \edef\@tempc{%
-      \noexpand\endgroup\noexpand\sd@saved@LoadClass[{#1}]{\@tempc}}%
-  \@tempc
-}
-\newcommand*{\sd@saved@PassOptionsToClass}{}
-\let\sd@saved@PassOptionsToClass=\PassOptionsToClass
-\renewcommand*{\PassOptionsToClass}[2]{%
-  \begingroup
-    \edef\@tempc{#2}\def\@tempb{article}%
-    \ifx\@tempc\@tempb
-      \def\@tempc{scrartcl}%
-    \fi
-    \edef\@tempc{%
-      \noexpand\endgroup\noexpand\sd@saved@PassOptionsToClass{#1}{%
-        \@tempc}}%
-  \@tempc
-}
-\LoadClassWithOptions{ltxdoc}[2022/06/14]
-\@ifundefined{cs}{\DeclareRobustCommand\cs[1]{\texttt{\bslash #1}}}{}
+\LoadClassWithOptions{ltxdoc}
 
 % Use two columns at index
 \setcounter{IndexColumns}{2}
@@ -176,11 +195,6 @@
   \MakePrivateLetters \m@cro@{6}}
 \long\def\m@cro@#1#2{\endgroup \topsep\MacroTopsep \trivlist
   \edef\saved@macroname{\string#2}%
-  \ifcase #1
-    \edef\saved@indexname{\expandafter\@gobble\string#2}%
-  \else
-    \let\saved@indexname\saved@macroname
-  \fi
   \def\makelabel##1{\llap{##1}}%
   \if@inlabel
     \let\@tempa\@empty \count@\macro@cnt
@@ -233,13 +247,6 @@
 \let\endLength\endmacro
 \let\endCounter\endmacro
 \let\endKOMAvar\endmacro
-
-% Some new command
-\newcommand*{\File}[1]{\texttt{\mbox{#1}}}
-\newcommand*{\Class}{\File}
-\newcommand*{\Package}{\File}
-\newcommand*{\Macro}{\cs}
-\newcommand*{\Option}{\File}
 
 % The new names we need
 \providecommand*{\EnvName}{Umgebung}% This is german
