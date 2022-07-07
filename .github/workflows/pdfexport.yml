@@ -20,7 +20,6 @@ jobs:
         run: |
           echo "---" >> patch_infra.md
           echo "title: Installation manual" >> patch_infra.md
-          echo "titlepage: true," >> patch_infra.md
           echo "---" >> patch_infra.md
           echo "" >> patch_infra.md
           echo "" >> patch_infra.md
